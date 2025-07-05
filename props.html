@@ -11,9 +11,10 @@
 <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
 <script type="text/babel">
-   function Btn( {text,onClick} ){
-    console.log(text, "was rendered");
+   function Btn( {text,onClick,fontSize=16} ){
+    //console.log(text, "was rendered");
     return (
     <button 
         onClick={onClick}
@@ -23,6 +24,7 @@
             padding:"10px 20px",
             border:0,
             borderRadius:10,
+            fontSize,
         }}
     > 
        {text} 
@@ -30,6 +32,10 @@
     );
    }
    const MemorizedBtn=React.memo(Btn)
+   Btn.propTypes={
+    text:PropTypes.string.isRequired,
+    fontSize:PropTypes.number.isRequired,
+   };
    function App(){
     const [value,setValue]=React.useState("Save Change");
     const changeValue=()=>setValue("Revert Change");
@@ -37,6 +43,8 @@
         <div>
             <MemorizedBtn text={value} onClick={changeValue}/>
             <MemorizedBtn text="Continue" />
+            <Btn text="Save Change" fontSize={18}/>
+           <Btn text={"continue"}/>
         </div>       
         );     
     }
